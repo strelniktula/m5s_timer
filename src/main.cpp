@@ -186,7 +186,7 @@ void setup() {
   M5.begin(); 
 
   //M5.Lcd.drawBitmap(0, 0, 320, 240, (uint16_t *)ipsc);
-  M5.Lcd.drawBitmap(0,0,320,240,(uint16_t *)ipsc, 0);
+  M5.Lcd.drawBitmap(0,0,320,240,(uint16_t *)ipsc, 255);
   delay(3000);
 
   M5.Lcd.fillScreen(TFT_BLACK);
@@ -228,6 +228,14 @@ void loop() {
       sh1 = 1;
     }
     delay(50);
+  }
+
+  if (M5.BtnC.pressedFor(1000)){
+    M5.Lcd.drawBitmap(0,0,320,240,(uint16_t *)ipsc, 255);
+    delay(3000);
+    //M5.Lcd.fillScreen(TFT_BLACK);
+    M5.Lcd.clearDisplay();
+    scr_display();
   }
 
   if (millis()-FireonLed > 1000) { //отключение светлячка через 1 сек
