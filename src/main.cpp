@@ -13,6 +13,7 @@ int targetport = 22; /// порт звукового датчика
 int ledport = 21;  /// порт светодиода
 
 extern const unsigned char ipsc[153600];
+extern const unsigned char aar1a[153600];
 
 void main_scr(){
   M5.Lcd.setTextFont(1); M5.Lcd.setTextSize(2); // построение главного экрана
@@ -185,8 +186,8 @@ void delay_timer(){
 void setup() {
   M5.begin(); 
 
-  //M5.Lcd.drawBitmap(0, 0, 320, 240, (uint16_t *)ipsc);
-  M5.Lcd.drawBitmap(0,0,320,240,(uint16_t *)ipsc, 255);
+  M5.Lcd.drawBitmap(0,0,320,240,(uint16_t *)aar1a, 255);
+  //M5.Lcd.drawBitmap(60,20,320,240,(uint16_t *)aar1, 255);
   delay(3000);
 
   M5.Lcd.fillScreen(TFT_BLACK);
