@@ -201,6 +201,9 @@ void setup() {
   pinMode(ledport, OUTPUT);
   digitalWrite(ledport,LOW);
 
+  // Set the wakeup button
+  M5.setWakeupButton(BUTTON_C_PIN);
+
   main_scr(); // выводим главный экран
 }
 
@@ -236,10 +239,11 @@ void loop() {
     delay(3000);
     //M5.Lcd.fillScreen(TFT_BLACK);
     M5.Lcd.clearDisplay();
-    scr_display();
+    M5.powerOFF();
+    //scr_display();
   }
 
-  if (millis()-FireonLed > 1000) { //отключение светлячка через 1 сек
+  if (millis()-FireonLed > 2000) { //отключение светлячка через 2 сек
     digitalWrite(ledport,LOW); 
     }
     
