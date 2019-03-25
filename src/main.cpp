@@ -6,6 +6,7 @@ float ShootTime = 0; /// время выстрела
 float G;
 int th = 0; /// задержка до старта
 boolean start = false; /// старт
+int flag = 0; /// флаг фиксации попадания
 
 float FireonLed;
 
@@ -155,6 +156,7 @@ void start_timer (){
       scr_display();
     } else {  // мишень в порядке! даем старт!!!
       start = true;
+      flag = 0;
       countdown(th);
       G = millis();
       M5.Speaker.tone(1500, 500);
@@ -221,18 +223,38 @@ void loop() {
     review_timer();
   };
 
-  if (digitalRead(targetport) == HIGH && start) {  /// фиксация попадания 
-    ShootTime = millis() - G;
-    FireonLed=millis(); digitalWrite(ledport,HIGH); 
-    shnum++;
-    shN(shnum);
-    displ(ShootTime, true);
-    if (sh1 == 0) {
-      shoot1(ShootTime);
-      sh1 = 1;
+
+
+  if(start){
+    if (digitalRead(targetport) == HIGH && flag==0){
+      ShootTime = millis() - G;
+      FireonLed=millis(); digitalWrite(ledport,HIGH); 
+      shnum++;
+      shN(shnum);
+      displ(ShootTime, true);
+      if (sh1 == 0) {
+         shoot1(ShootTime);
+         sh1 = 1;
+      }
+     delay(10);
+     flag=1;
     }
-    delay(50);
+    if (digitalRead(targetport) == LOW && flag==1) {
+      flag=0;
+    } 
   }
+  // if (digitalRead(targetport) == HIGH && start) {  /// фиксация попадания 
+  //   ShootTime = millis() - G;
+  //   FireonLed=millis(); digitalWrite(ledport,HIGH); 
+  //   shnum++;
+  //   shN(shnum);
+  //   displ(ShootTime, true);
+  //   if (sh1 == 0) {
+  //     shoot1(ShootTime);
+  //     sh1 = 1;
+  //   }
+  //   delay(50);
+  // }
 
   if (M5.BtnC.pressedFor(1000)){
     M5.Lcd.drawBitmap(0,0,320,240,(uint16_t *)ipsc, 255);
@@ -243,7 +265,7 @@ void loop() {
     //scr_display();
   }
 
-  if (millis()-FireonLed > 2000) { //отключение светлячка через 2 сек
+  if (millis()-FireonLed > 3000) { //отключение светлячка через 2 сек
     digitalWrite(ledport,LOW); 
     }
     
