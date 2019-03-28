@@ -6,7 +6,7 @@ float ShootTime = 0; /// время выстрела
 float G;
 int th = 0; /// задержка до старта
 boolean start = false; /// старт
-int flag = 0; /// флаг фиксации попадания
+int flag; /// флаг фиксации попадания
 
 float FireonLed;
 
@@ -15,11 +15,12 @@ int ledport = 21;  /// порт светодиода
 
 extern const unsigned char ipsc[153600];
 extern const unsigned char aarg[153600];
+//extern const unsigned char vd[153600];
 
 void main_scr(){
   M5.Lcd.setTextFont(1); M5.Lcd.setTextSize(2); // построение главного экрана
   M5.Lcd.setTextColor(TFT_WHITE, TFT_BLACK);
-  M5.Lcd.setCursor( 16, 15); M5.Lcd.print("- ActionAir Shot Timer -");
+  M5.Lcd.setCursor( 16, 15); M5.Lcd.print("= ActionAir Shot Timer =");
   M5.Lcd.setTextColor(TFT_WHITE, TFT_BLACK);
   M5.Lcd.setCursor( 35, 215); M5.Lcd.print("START");
   M5.Lcd.setCursor( 230, 215); M5.Lcd.print("Review");
@@ -27,7 +28,7 @@ void main_scr(){
   M5.Lcd.setCursor( 115, 215); M5.Lcd.print("Delay:"); M5.Lcd.print(th / 10 % 10); M5.Lcd.print(th % 10);
 
   M5.Lcd.setTextFont(2); M5.Lcd.setTextSize(2);
-  M5.Lcd.setCursor( 25, 50); M5.Lcd.print("1'S");
+  M5.Lcd.setCursor( 25, 50); M5.Lcd.print("1's");
   M5.Lcd.setCursor( 185, 50); M5.Lcd.print("Sht");
 
   M5.Lcd.drawRoundRect(10, 45, 300, 160, 10, TFT_WHITE);
@@ -192,6 +193,7 @@ void setup() {
   pinMode(ledport, OUTPUT);
   digitalWrite(ledport,LOW);
 
+  //M5.Lcd.drawBitmap(0,0,320,240,(uint16_t *)vd, 0);
   M5.Lcd.drawBitmap(0,0,320,240,(uint16_t *)aarg, 255);
   //M5.Lcd.drawBitmap(60,20,320,240,(uint16_t *)aar1, 255);
   delay(3000);
@@ -202,7 +204,7 @@ void setup() {
   shoot1(0);
   shN(0);
   G = millis();
-
+  
   // Set the wakeup button
   M5.setWakeupButton(BUTTON_C_PIN);
 
@@ -223,9 +225,7 @@ void loop() {
     review_timer();
   };
 
-
-
-  if(start){
+  if(start){    /// фиксация попадания
     if (digitalRead(targetport) == HIGH && flag==0){
       ShootTime = millis() - G;
       FireonLed=millis(); digitalWrite(ledport,HIGH); 
@@ -243,18 +243,6 @@ void loop() {
       flag=0;
     } 
   }
-  // if (digitalRead(targetport) == HIGH && start) {  /// фиксация попадания 
-  //   ShootTime = millis() - G;
-  //   FireonLed=millis(); digitalWrite(ledport,HIGH); 
-  //   shnum++;
-  //   shN(shnum);
-  //   displ(ShootTime, true);
-  //   if (sh1 == 0) {
-  //     shoot1(ShootTime);
-  //     sh1 = 1;
-  //   }
-  //   delay(50);
-  // }
 
   if (M5.BtnC.pressedFor(1000)){
     M5.Lcd.drawBitmap(0,0,320,240,(uint16_t *)ipsc, 255);
@@ -268,6 +256,7 @@ void loop() {
   if (millis()-FireonLed > 3000) { //отключение светлячка через 2 сек
     digitalWrite(ledport,LOW); 
     }
-    
-  M5.update();
+
+ 
+ M5.update();
 }
