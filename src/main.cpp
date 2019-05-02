@@ -2,13 +2,13 @@
 
 byte sh1 = 0;
 int shnum = 0; /// число выстрелов
-float ShootTime = 0; /// время выстрела
-float G;
+unsigned long ShootTime = 0; /// время выстрела
+unsigned long G;
 int th = 0; /// задержка до старта
 boolean start = false; /// старт
 int flag; /// флаг фиксации попадания
 
-float FireonLed;
+unsigned long FireonLed;
 
 int targetport = 22; /// порт звукового датчика
 int ledport = 21;  /// порт светодиода
@@ -16,6 +16,7 @@ int ledport = 21;  /// порт светодиода
 extern const unsigned char ipsc[153600];
 extern const unsigned char aarg[153600];
 //extern const unsigned char vd[153600];
+//extern const unsigned char s2021[153600];
 
 void main_scr(){
   M5.Lcd.setTextFont(1); M5.Lcd.setTextSize(2); // построение главного экрана
@@ -29,7 +30,7 @@ void main_scr(){
 
   M5.Lcd.setTextFont(2); M5.Lcd.setTextSize(2);
   M5.Lcd.setCursor( 25, 50); M5.Lcd.print("1's");
-  M5.Lcd.setCursor( 185, 50); M5.Lcd.print("Sht");
+  M5.Lcd.setCursor( 185, 50); M5.Lcd.print("Hit");
 
   M5.Lcd.drawRoundRect(10, 45, 300, 160, 10, TFT_WHITE);
   M5.Lcd.drawRoundRect(6, 41, 308, 168, 12, TFT_WHITE);
@@ -195,7 +196,7 @@ void setup() {
 
   //M5.Lcd.drawBitmap(0,0,320,240,(uint16_t *)vd, 0);
   M5.Lcd.drawBitmap(0,0,320,240,(uint16_t *)aarg, 255);
-  //M5.Lcd.drawBitmap(60,20,320,240,(uint16_t *)aar1, 255);
+  //M5.Lcd.drawBitmap(0,0,320,240,(uint16_t *)s2021, 255);
   delay(3000);
 
   M5.Lcd.fillScreen(TFT_BLACK);
