@@ -195,7 +195,7 @@ void setup() {
   digitalWrite(ledport,LOW);
 
   //M5.Lcd.drawBitmap(0,0,320,240,(uint16_t *)vd, 0);
-  M5.Lcd.drawBitmap(0,0,320,240,(uint16_t *)aarg, 255);
+  M5.Lcd.drawBitmap(0,0,320,240,(uint16_t *)aarg, 0);
   //M5.Lcd.drawBitmap(0,0,320,240,(uint16_t *)s2021, 255);
   delay(3000);
 
